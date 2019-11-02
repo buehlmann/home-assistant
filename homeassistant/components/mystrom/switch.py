@@ -63,6 +63,11 @@ class MyStromSwitch(SwitchDevice):
         """Return the current power consumption in W."""
         return round(self.data["power"], 2)
 
+    @property
+    def current_temperature_c(self):
+        """Return the current temperature in C."""
+        return round(self.data["temperature"], 2)
+
     def turn_on(self, **kwargs):
         """Turn the switch on."""
         from pymystrom import exceptions
@@ -88,5 +93,5 @@ class MyStromSwitch(SwitchDevice):
         try:
             self.data = self.plug.get_status()
         except exceptions.MyStromConnectionError:
-            self.data = {"power": 0, "relay": False}
+            self.data = {"power": 0, "relay": False, "temperature": 0}
             _LOGGER.error("No route to device: %s", self._resource)
